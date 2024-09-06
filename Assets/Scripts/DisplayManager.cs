@@ -23,11 +23,20 @@ public class DisplayManager : MonoBehaviour
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // Vérifie si le clic est un clic gauche (bouton 0)
+        // Vï¿½rifie si le clic est un clic gauche (bouton 0)
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             popUpEnsemble.SetActive(false); //retire le texte
             Time.timeScale = 1; // reprebnd le jeu
+        }
+    }
+
+    public void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            popUpEnsemble.SetActive(false); //retire le texte
+            Time.timeScale = 1; // reprend le jeu
         }
     }
 }
