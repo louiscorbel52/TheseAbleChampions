@@ -10,6 +10,9 @@ public class BallNPC : MonoBehaviour
     private Rigidbody rb;
     private Camera mainCamera;
 
+    public GameObject assiaPopup;
+    public GameObject oleksandrPopup;
+
 
     private void Start()
     {

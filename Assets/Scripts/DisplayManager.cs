@@ -3,24 +3,51 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class DisplayManager : MonoBehaviour
 {
-    [SerializeField] GameObject popUpEnsemble;
-    [SerializeField] GameObject popUpTexte;
+    [SerializeField] GameObject assiaPopup;
+    [SerializeField] GameObject oleksandrPopup;
+    [SerializeField] GameObject assiaEndGamePopup;
+    [SerializeField] GameObject oleksandrEndGamePopup;
     
     // Start is called before the first frame update
     void Start()
     {
-        popUpEnsemble.SetActive(false);
+        assiaPopup.SetActive(false);
+        oleksandrPopup.SetActive(false);
+        assiaEndGamePopup.SetActive(false);
+        oleksandrEndGamePopup.SetActive(false);
     }
 
-    public void DisplayProcess(int currentLevel)
+    public void DisplayProcess()
     {
         Time.timeScale = 0; //met le jeu en pause
-        popUpTexte.GetComponent<TMP_Text>().text = "texte athlete niveau " + currentLevel; //change le texte
 
-        popUpEnsemble.SetActive(true); //affiche le texte
+        if (GateOpener.Instance.currentLevel < 5)
+        {
+            if (GateOpener.Instance.athleteID == 2)
+            {
+                assiaPopup.SetActive(true);
+            }
+            else if (GateOpener.Instance.athleteID == 1)
+            {
+                oleksandrPopup.SetActive(true);
+            }
+        }
+
+        if (GateOpener.Instance.currentLevel == 5)
+        {
+            if (GateOpener.Instance.athleteID == 2)
+            {
+                assiaEndGamePopup.SetActive(true);
+            }
+            else if (GateOpener.Instance.athleteID == 1)
+            {
+                oleksandrEndGamePopup.SetActive(true);
+            }
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -28,8 +55,19 @@ public class DisplayManager : MonoBehaviour
         // V�rifie si le clic est un clic gauche (bouton 0)
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            popUpEnsemble.SetActive(false); //retire le texte
-            Time.timeScale = 1; // reprebnd le jeu
+            if (GateOpener.Instance.currentLevel < 5)
+            {
+                if (GateOpener.Instance.athleteID == 2)
+                {
+                    assiaPopup.SetActive(false); //retire le texte
+                    Time.timeScale = 1; // reprend le jeu
+                }
+                else if (GateOpener.Instance.athleteID == 1)
+                {
+                    oleksandrPopup.SetActive(false); //retire le texte
+                    Time.timeScale = 1; // reprend le jeu
+                }
+            }
         }
     }
 
@@ -37,8 +75,27 @@ public class DisplayManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            popUpEnsemble.SetActive(false); //retire le texte
-            Time.timeScale = 1; // reprend le jeu
+            if (GateOpener.Instance.currentLevel < 5)
+            {
+                if (GateOpener.Instance.athleteID == 2)
+                {
+                    assiaPopup.SetActive(false); //retire le texte
+                    Time.timeScale = 1; // reprend le jeu
+                }
+                else if (GateOpener.Instance.athleteID == 1)
+                {
+                    oleksandrPopup.SetActive(false); //retire le texte
+                    Time.timeScale = 1; // reprend le jeu
+                }
+            }
         }
+    }
+
+    // Method to restart the scene
+    public void RestartScene()
+    {
+        Debug.Log("Restarting scene...");
+        Time.timeScale = 1; // Resume the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
