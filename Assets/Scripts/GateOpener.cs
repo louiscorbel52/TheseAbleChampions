@@ -23,9 +23,30 @@ public class GateOpener : MonoBehaviour
 
     //Gestion des barri�res
     [SerializeField] private GameObject[] levelBarriers;
-    [SerializeField] float moveSyncWithNPCMargin = 0.2f; // marge d'erreur sur la v�locit� quand le joueur se synchro avec les npc
-    private float yThinkOutBox; // hauteur de la barriere pour l'�tage o� il faut contourner
 
+    //~~~~Oleksander 
+    //Niveau 2 v1
+    [SerializeField] float moveSyncWithNPCMargin = 0.2f; // marge d'erreur sur la v�locit� quand le joueur se synchro avec les npc
+    //niveau 2 v2
+                                                         //Variable vérifiant si l'init de l'épreuve a été faite
+        private bool wheelTrialInitialised = false;
+        // Point central autour duquel l'objet pourrait tourner
+        [SerializeField] Transform oleksanderSphereCenter;
+        private Vector2 centerPoint;
+        // La tolérance pour déterminer si le mouvement est circulaire
+        [SerializeField] private float toleranceSphereRadius = 0.5f;
+        // Distance initiale de l'objet par rapport au point central
+        [SerializeField] private float oleksanderCircleRadius;
+        // Angle total parcouru autour du point central
+        private float totalAngleTravelled = 0.0f;
+        // Position précédente pour calculer l'angle
+        private Vector2 previousPosition;
+        // Indicateur si le cercle complet est détecté
+        private bool circleCompleted = false;
+    //niveau 3 
+        private float yThinkOutBox; // hauteur de la barriere pour l'�tage o� il faut contourner
+
+    //~~~~Assia
     // Variable that defines the valid x position for the player to pass level 1
     private float xValidValueLevel1Assia = -7.0f;
     // Variable that defines the margin of error for the player to pass level 1
@@ -57,8 +78,6 @@ public class GateOpener : MonoBehaviour
     {
         currentLevel = 0;
 
-        yThinkOutBox = levelBarriers[1].transform.position.y;
-
         level1NPC.SetActive(true);
         level2NPC.SetActive(false);
         level3NPC.SetActive(false);
@@ -69,6 +88,12 @@ public class GateOpener : MonoBehaviour
 
         barrier4Renderer = levelBarriers[2].GetComponent<Renderer>();
         barrier4OriginalColor = barrier4Renderer.material.color;
+
+        //Oleksander
+
+        // Initialise la valeur de hauteur à dépasser pour entrer au niveau 3
+        yThinkOutBox = levelBarriers[1].transform.position.y;
+
     }
 
     void Awake()
@@ -88,7 +113,10 @@ public class GateOpener : MonoBehaviour
     {
         if (athleteID == 1){
             if (currentLevel == 1){
-                rb = controlledBall.GetComponent<Rigidbody>();
+
+                /*
+                //Code pour LVL 2 - v1
+                
                 //Gestion des NPC
                 // Calcule la vitesse verticale en fonction du temps, de l'amplitude et de la vitesse
                 NPCvelocity = Mathf.Cos(Time.time * NPCSpeed) * NPCAmplitude;
@@ -104,7 +132,23 @@ public class GateOpener : MonoBehaviour
                         }
                     }
                 }
-
+                */
+                //Code pour lvl 2 - v2
+                if (!wheelTrialInitialised)
+                {
+                    rb = controlledBall.GetComponent<Rigidbody>();
+                    // Initialise la distance initiale par rapport au centre
+                    centerPoint = oleksanderSphereCenter.position;
+                    // Initialise la position précédente
+                    previousPosition = controlledBall.transform.position;
+                    wheelTrialInitialised = true;
+                }
+                if (!circleCompleted && CheckForCircle())
+                {
+                    Debug.Log("Cercle complet détecté !");
+                    circleCompleted = true;
+                    OpenGateAttempt(2);
+                }
             }
         }
         else if(athleteID == 2){
@@ -203,7 +247,8 @@ private IEnumerator ChangeBarrierColor()
     {
         if(athleteID == 1){
             //Condition de passage au niveau 2
-            if (currentLevel == 1 & CheckForSynchronicity())
+            //if (currentLevel == 1 & CheckForSynchronicity())
+            if (currentLevel == 1 & circleCompleted)
             {
                 GoToNextLevel();
                 level2NPC.SetActive(true);
@@ -295,7 +340,48 @@ private IEnumerator ChangeBarrierColor()
         if (vel < bornUp & vel > bornLow) { StopAllNPC(); return true; }
         else { return false; }  
     }
-    
+
+    // Méthode pour détecter le mouvement circulaire et vérifier le cercle complet
+    private bool CheckForCircle()
+    {
+        // Calculer la distance actuelle par rapport au point central
+        float currentDistance = Vector2.Distance(controlledBall.transform.position, centerPoint);
+
+        // Vérifier si l'objet reste à une distance constante du centre
+        if (Mathf.Abs(currentDistance - oleksanderCircleRadius) > toleranceSphereRadius)
+        {
+            return false;
+        }
+
+        // Calculer les vecteurs de direction entre l'objet et le centre (précédent et actuel)
+        Vector2 previousDirection = previousPosition - centerPoint;
+        Vector2 currentDirection = (Vector2)controlledBall.transform.position - centerPoint;
+
+        // Calculer l'angle entre les deux positions (en degrés)
+        float angle = Vector2.SignedAngle(previousDirection, currentDirection);
+
+        // Ajouter cet angle à l'angle total parcouru
+        totalAngleTravelled += angle;
+
+        // Mettre à jour la position précédente
+        previousPosition = controlledBall.transform.position;
+
+        Debug.Log("début d'un nouveau Log-------------------------------");
+        Debug.Log("distance balle à centre = " + currentDistance);
+        Debug.Log("angle = " + angle);
+        Debug.Log("totalAngleTravelled = " + totalAngleTravelled);
+
+
+
+        // Vérifier si l'objet a parcouru au moins 360 degrés (cercle complet)
+        if (Mathf.Abs(totalAngleTravelled) >= 360f)
+        {
+            return true;  // Cercle complet détecté
+        }
+
+        return false;
+    }
+
     //Renvoie true si la balle est assez haute, false sinon. Sert � v�rifier que le joeuur a pens� hors de la boite et donc s'est �chapp� de l'�tage 2
     private bool CheckForOutsideBox()
     {
