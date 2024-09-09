@@ -9,6 +9,9 @@ public class GateOpener : MonoBehaviour
     public int currentLevel;
     public int athleteID = -1;
 
+    public List<GameObject> barriersToDisableAssia;
+    public List<GameObject> barriersToActivateAssia;
+
     public string assiaLevel1SoundName = "bump";  // The name of the sound clip to play
 
 
@@ -19,7 +22,9 @@ public class GateOpener : MonoBehaviour
     [SerializeField] float moveSyncWithNPCMargin = 0.2f; // marge d'erreur sur la v�locit� quand le joueur se synchro avec les npc
     private float yThinkOutBox; // hauteur de la barriere pour l'�tage o� il faut contourner
 
+    // Variable that defines the valid x position for the player to pass level 1
     private float xValidValueLevel1Assia = -7.0f;
+    // Variable that defines the margin of error for the player to pass level 1
     public float marginOfErrorAssiaLevel1 = 0.5f;
 
     //Gestion des NPC
@@ -85,8 +90,34 @@ public class GateOpener : MonoBehaviour
             }
         }
         else if(athleteID == 2){
-            if(currentLevel == 1){
+
+            
+            foreach (GameObject obj in barriersToDisableAssia)
+            {
+                if (obj != null)
+                {
+                    obj.SetActive(false);
+                }
+                else
+                {
+                    Debug.LogWarning("A GameObject in the list is null.");
+                }
+            
             }
+
+            foreach (GameObject obj in barriersToActivateAssia)
+            {
+                if (obj != null)
+                {
+                    obj.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning("A GameObject in the list is null.");
+                }
+            
+            }
+
         }     
     }
 

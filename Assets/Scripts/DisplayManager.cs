@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 public class DisplayManager : MonoBehaviour
 {
     [SerializeField] GameObject popUpEnsemble;
+    [SerializeField] GameObject popUpTexte;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,7 @@ public class DisplayManager : MonoBehaviour
     public void DisplayProcess(int currentLevel)
     {
         Time.timeScale = 0; //met le jeu en pause
-        popUpEnsemble.transform.Find("Texte").GetComponent<TMP_Text>().text = "texte athlete niveau " + currentLevel; //change le texte
+        popUpTexte.GetComponent<TMP_Text>().text = "texte athlete niveau " + currentLevel; //change le texte
 
         popUpEnsemble.SetActive(true); //affiche le texte
     }
