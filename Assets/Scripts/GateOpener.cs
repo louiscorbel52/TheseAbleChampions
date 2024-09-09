@@ -15,6 +15,10 @@ public class GateOpener : MonoBehaviour
 
     public string assiaLevel1SoundName = "bump";  // The name of the sound clip to play
 
+    public float yMinimumValueForLevel2Assia = 5.0f;
+
+    private bool changingColor = false;
+
 
     [SerializeField] private DisplayManager displayManager;
 
@@ -49,6 +53,10 @@ public class GateOpener : MonoBehaviour
     // Variable that defines the margin of error for the player to pass level 1
     public float marginOfErrorAssiaLevel1 = 0.5f;
 
+    private Vector3 lastPosition;
+
+    public Vector3 StartingPoint;
+
     //Gestion des NPC
     [SerializeField] float NPCSpeed;
     [SerializeField] float NPCAmplitude;
@@ -62,6 +70,10 @@ public class GateOpener : MonoBehaviour
     [SerializeField] public GameObject controlledBall;
     private Rigidbody rb;
 
+    private Renderer barrier4Renderer;
+    private Color barrier4OriginalColor;
+    private Coroutine changeColorCoroutine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,6 +85,12 @@ public class GateOpener : MonoBehaviour
         level2NPC.SetActive(false);
         level3NPC.SetActive(false);
         levelNPC = new GameObject[] { level1NPC, level2NPC, level3NPC };
+
+        lastPosition = transform.position;
+        StartingPoint = transform.position;
+
+        barrier4Renderer = levelBarriers[2].GetComponent<Renderer>();
+        barrier4OriginalColor = barrier4Renderer.material.color;
 
         //Oleksander
 
@@ -165,8 +183,67 @@ public class GateOpener : MonoBehaviour
             
             }
 
+            if (currentLevel == 2)
+            {
+                // Get the current position of the object
+                Vector3 currentPosition = controlledBall.transform.position;
+
+                // Check if the current y position is lower than the last y position
+                if (currentPosition.y < lastPosition.y)
+                {
+                    // Reset the StartingPoint variable
+                    StartingPoint = currentPosition;
+                    Debug.Log($"Starting point updated with {currentPosition.y}");
+                }
+
+                // Update the last position with the current position
+                lastPosition = currentPosition;
+
+            }
+
+            // New condition for athleteID == 2 and currentLevel == 3
+            else if (currentLevel == 3)
+            {
+
+                rb = controlledBall.GetComponent<Rigidbody>();
+                float marginOfError = 0.1f;
+                if (rb.velocity.magnitude < marginOfError && changingColor == false)
+                {
+                    changeColorCoroutine = StartCoroutine(ChangeBarrierColor());
+                    changingColor = true;
+                }
+
+                else if (rb.velocity.magnitude >= marginOfError && changingColor == true)
+                {
+                    // Stop the coroutine if the ball moves
+                    if (changeColorCoroutine != null && barrier4Renderer.material.color != Color.green)
+                    {
+                        StopCoroutine(changeColorCoroutine);
+                        changingColor = false;
+                        // Optionally reset the barrier color immediately
+                        barrier4Renderer.material.color = barrier4OriginalColor;
+                    }
+                }
+            }
+
         }     
     }
+
+private IEnumerator ChangeBarrierColor()
+{
+    Color[] colors = { Color.red, new Color(1.0f, 0.65f, 0.0f), Color.green }; // Red, Orange, Green
+
+    foreach (Color color in colors)
+    {
+        barrier4Renderer.material.color = color;
+        yield return new WaitForSeconds(1.0f);
+    }
+
+    yield return new WaitForSeconds(1.0f);
+
+    barrier4Renderer.material.color = barrier4OriginalColor;
+    changingColor = false;
+}
 
 
     public void OpenGateAttempt(int protectedLevel)
@@ -194,6 +271,8 @@ public class GateOpener : MonoBehaviour
 
             if (currentLevel == 4 )
             {
+                currentLevel++;
+                displayManager.DisplayProcess();
                 Debug.Log("wahou");
             }
         }
@@ -216,6 +295,32 @@ public class GateOpener : MonoBehaviour
                 }
 
 
+            }
+
+            else if(currentLevel == 2){
+                if(StartingPoint.y<yMinimumValueForLevel2Assia){
+                    GoToNextLevel();
+                }
+                else{
+                    Debug.Log($"You are not low enough Starting point is {StartingPoint.y} and minimum value is {yMinimumValueForLevel2Assia}");
+                }
+            }
+
+            else if (currentLevel == 3)
+            {
+                Renderer barrier4Renderer = levelBarriers[2].GetComponent<Renderer>();
+                if (barrier4Renderer.material.color == Color.green)
+                {
+                    GoToNextLevel();
+                    Debug.Log("Barrier is green, proceeding with level 3 actions.");
+                }
+            }
+
+            else if (currentLevel == 4 )
+            {
+                currentLevel++;
+                displayManager.DisplayProcess();
+                Debug.Log("wahou");
             }
         }
         
@@ -312,7 +417,7 @@ public class GateOpener : MonoBehaviour
         {
             StartCoroutine(hintManager.HintCoroutine(currentLevel, athleteID));
         }
-        displayManager.DisplayProcess(currentLevel);
+        displayManager.DisplayProcess();
 
     }
     private void StopAllNPC()

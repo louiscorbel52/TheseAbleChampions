@@ -38,6 +38,9 @@ public class BallNPC : MonoBehaviour
     private float fastDistance = 15f;
     private bool moveDown = true;
 
+    public GameObject assiaPopup;
+    public GameObject oleksandrPopup;
+
 
     private void Start()
     {
