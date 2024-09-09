@@ -8,6 +8,15 @@ public class SunTrigger : MonoBehaviour
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other)
     {
-        opener.OpenGateAttempt(5);
+        if (this.name == "TriggerBarrierOleksandr")
+        {
+
+            opener.OpenGateAttempt(3);
+        }
+        if (this.name == "Sun")
+        {
+            opener.OpenGateAttempt(5);
+
+        }
     }
 }
