@@ -476,6 +476,10 @@ private IEnumerator ChangeBallColor()
     //Fonction qui d�clenche la proc�dure compl�te de changement de niveau
     public void GoToNextLevel()
     {
+        if (currentLevel == 0)
+        {
+            ChangeBarrierTextures();
+        };
         if (currentLevel == 1 | currentLevel == 2 | currentLevel == 3)
         {
             OpenBarrier();
@@ -486,7 +490,6 @@ private IEnumerator ChangeBallColor()
             StartCoroutine(hintManager.HintCoroutine(currentLevel, athleteID));
         }
         displayManager.DisplayProcess();
-
     }
     private void StopAllNPC()
     {
@@ -507,7 +510,7 @@ private IEnumerator ChangeBallColor()
     private void OpenBarrier()
     {
 
-        Renderer render = levelBarriersTextures[currentLevel - 1].GetComponent<Renderer>();
+        Renderer render = levelBarriersTextures[athleteID].transform.GetChild(currentLevel-1).GetComponent<Renderer>();
         Color c = render.material.color;
         c.a *= 0.2f;
         render.material.color = c;
@@ -515,6 +518,11 @@ private IEnumerator ChangeBallColor()
         Destroy(levelBarriers[currentLevel - 1]);
     }
 
+    private void ChangeBarrierTextures()
+    {
+        levelBarriersTextures[0].SetActive(false);
+        levelBarriersTextures[athleteID].SetActive(true);
+    }
     // Function to scale a value from one range to another
     private float ScaleValue(float value, float minOriginal, float maxOriginal, float minTarget, float maxTarget)
     {

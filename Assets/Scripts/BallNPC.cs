@@ -19,7 +19,7 @@ public class BallNPC : MonoBehaviour
     /// Variables pour indice 1 athlete 1
     /// </summary>
     // Rayon du cercle
-    private float radius = 2.25f;
+    private float radius = 1.5f;
     // Vitesse angulaire (en radians par seconde)
     private float speed = 2.0f;
     // Variable pour suivre l'angle courant autour du cercle
