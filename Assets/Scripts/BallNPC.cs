@@ -8,7 +8,35 @@ public class BallNPC : MonoBehaviour
     public float marginOfError = 0.5f;
     public GameObject dotPrefab;
     private Rigidbody rb;
+    public bool needHint = false;
     private Camera mainCamera;
+    [SerializeField] private int level;
+
+    // Centre du NPC
+    private Vector2 center;
+
+    /// <summary>
+    /// Variables pour indice 1 athlete 1
+    /// </summary>
+    // Rayon du cercle
+    private float radius = 2.25f;
+    // Vitesse angulaire (en radians par seconde)
+    private float speed = 2.0f;
+    // Variable pour suivre l'angle courant autour du cercle
+    private float currentAngle = 0.0f;
+
+    /// <summary>
+    /// Variables pour indice 2 athlete 1
+    /// </summary>
+    // Distance que l'objet doit parcourir vers la gauche
+    public float distance = 10.0f;
+
+    /// <summary>
+    /// Variables pour indice 3 athlete 1
+    /// </summary>
+    private float fastSpeed = 15f;
+    private float fastDistance = 15f;
+    private bool moveDown = true;
 
     public GameObject assiaPopup;
     public GameObject oleksandrPopup;
@@ -29,6 +57,8 @@ public class BallNPC : MonoBehaviour
         {
             Debug.LogError("SharedValueSingleton instance not found.");
         }
+        center = (Vector2)transform.position + new Vector2 ( -radius, 0 ) ;
+
     }
     private void Update()
     {
@@ -46,9 +76,9 @@ public class BallNPC : MonoBehaviour
 
         // Detect click on npc ball at level 0 -> update to level 1, destroy npc ball and create a controlled ball
 
-        if(GateOpener.Instance.currentLevel == 0 && GateOpener.Instance.athleteID == -1)
+        if (GateOpener.Instance.currentLevel == 0 && GateOpener.Instance.athleteID == -1)
         {
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (distance <= marginOfError)
                 {
@@ -58,16 +88,15 @@ public class BallNPC : MonoBehaviour
 
                     List<string> validValues = new List<string> { "1", "2", "3" };
 
-                    if(validValues.Contains(objectTag))
-                    { 
-
+                    if (validValues.Contains(objectTag))
+                    {
                         Debug.Log($"{gameObject.name} was clicked within the margin of error and will be destroyed!");
                         // Deactivate collider of clicked object
                         gameObject.GetComponent<Collider>().enabled = false;
 
                         // Convert the tag to an integer
                         int tagAsInt;
-                        
+
                         // Try to parse the tag as an integer
                         if (int.TryParse(objectTag, out tagAsInt))
                         {
@@ -85,7 +114,7 @@ public class BallNPC : MonoBehaviour
                         // Create a new controlled ball at the position of the clicked object
                         GameObject controlledBall = Instantiate(dotPrefab, transform.position, Quaternion.identity);
                         // Increment the current level in the singleton
-                        GateOpener.Instance.currentLevel++;
+                        GateOpener.Instance.GoToNextLevel();
                         // Set the controlled ball in the singleton
                         GateOpener.Instance.controlledBall = controlledBall;
                         // Set the original color of the ball in the singleton
@@ -93,15 +122,90 @@ public class BallNPC : MonoBehaviour
 
                     }
 
-                            
+
                 }
                 else
                 {
                     Debug.Log($"Click was outside the margin of error. Distance: {distance}");
                 }
             }
+
         }
-        
+        if (needHint)
+        {
+            if (GateOpener.Instance.athleteID == 1)
+            {
+                if (GateOpener.Instance.currentLevel == 1) {
+                    MoveInCircles();
+                }
+                if (GateOpener.Instance.currentLevel == 2)
+                {
+                    MoveOnSides();
+                }
+                if (GateOpener.Instance.currentLevel == 3)
+                {
+                    MoveFast();
+                }
+            }
+
+        }
+
     }
 
+    /// <summary>
+    /// Fonction pour l'indice niveau 1 de oleksander
+    /// </summary>
+    private void MoveInCircles()
+    {
+        // Calculer l'angle courant en fonction de la vitesse et du temps écoulé
+        currentAngle += speed * Time.deltaTime;
+
+        // Calculer les nouvelles positions en utilisant sinus et cosinus
+        float x = center.x + Mathf.Cos(currentAngle) * radius;
+        float y = center.y + Mathf.Sin(currentAngle) * radius;
+
+        // Appliquer la nouvelle position à l'objet
+        transform.position = new Vector2(x, y);
+    }
+    /// <summary>
+    /// Fonction pour l'indice 2 d'oleksander
+    /// </summary>
+    private void MoveOnSides()
+    {
+            // Déplacer l'objet vers la gauche en fonction de la vitesse et du temps
+            transform.Translate(Vector3.left * speed * Time.deltaTime);
+
+            // Vérifier si l'objet a parcouru la distance D
+            if (Vector3.Distance(center, transform.position) >= distance)
+            {
+            // Ramener l'objet instantanément à sa position de départ
+            transform.position = center;
+            }
+        
+    }
+    private void MoveFast()
+    {
+        Debug.Log("switch to go up  = " + Vector2.Distance(center, transform.position));
+        if (moveDown)
+        {
+            // Déplacer l'objet vers le bas en fonction de la vitesse et du temps
+            rb.velocity = Vector3.down * fastSpeed;
+
+        }
+        else {
+            rb.velocity = Vector3.up * fastSpeed;
+        }
+
+        // Vérifier si l'objet a parcouru la distance D
+        if (moveDown & Vector2.Distance(center, transform.position) >= fastDistance)
+        {
+            
+            moveDown = false;
+        }
+        if (!moveDown & transform.position.y > 17f)
+        {
+            moveDown = true;
+        }
+
+    }
 }

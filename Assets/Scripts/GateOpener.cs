@@ -6,7 +6,7 @@ using System;
 public class GateOpener : MonoBehaviour
 {
     public static GateOpener Instance;
-    
+    private HintManager hintManager;
     public int currentLevel;
     public int athleteID = -1;
 
@@ -33,7 +33,7 @@ public class GateOpener : MonoBehaviour
         private bool wheelTrialInitialised = false;
         // Point central autour duquel l'objet pourrait tourner
         [SerializeField] Transform oleksanderSphereCenter;
-        private Vector2 centerPoint;
+        public Vector2 oleksanderCernterPoint;
         // La tolérance pour déterminer si le mouvement est circulaire
         [SerializeField] private float toleranceSphereRadius = 0.5f;
         // Distance initiale de l'objet par rapport au point central
@@ -64,7 +64,7 @@ public class GateOpener : MonoBehaviour
     [SerializeField] private GameObject level1NPC;
     [SerializeField] private GameObject level2NPC;
     [SerializeField] private GameObject level3NPC;
-    private GameObject[] levelNPC;
+    public GameObject[] levelNPC;
 
     //Gestion du player
     [SerializeField] public GameObject controlledBall;
@@ -76,6 +76,8 @@ public class GateOpener : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hintManager = GetComponent<HintManager>();
+
         currentLevel = 0;
 
         level1NPC.SetActive(true);
@@ -173,7 +175,7 @@ public class GateOpener : MonoBehaviour
                 {
                     rb = controlledBall.GetComponent<Rigidbody>();
                     // Initialise la distance initiale par rapport au centre
-                    centerPoint = oleksanderSphereCenter.position;
+                    oleksanderCernterPoint = oleksanderSphereCenter.position;
                     // Initialise la position précédente
                     previousPosition = controlledBall.transform.position;
                     wheelTrialInitialised = true;
@@ -379,7 +381,7 @@ private IEnumerator ChangeBallColor()
     private bool CheckForCircle()
     {
         // Calculer la distance actuelle par rapport au point central
-        float currentDistance = Vector2.Distance(controlledBall.transform.position, centerPoint);
+        float currentDistance = Vector2.Distance(controlledBall.transform.position, oleksanderCernterPoint);
 
         // Vérifier si l'objet reste à une distance constante du centre
         if (Mathf.Abs(currentDistance - oleksanderCircleRadius) > toleranceSphereRadius)
@@ -388,8 +390,8 @@ private IEnumerator ChangeBallColor()
         }
 
         // Calculer les vecteurs de direction entre l'objet et le centre (précédent et actuel)
-        Vector2 previousDirection = previousPosition - centerPoint;
-        Vector2 currentDirection = (Vector2)controlledBall.transform.position - centerPoint;
+        Vector2 previousDirection = previousPosition - oleksanderCernterPoint;
+        Vector2 currentDirection = (Vector2)controlledBall.transform.position - oleksanderCernterPoint;
 
         // Calculer l'angle entre les deux positions (en degrés)
         float angle = Vector2.SignedAngle(previousDirection, currentDirection);
@@ -399,12 +401,12 @@ private IEnumerator ChangeBallColor()
 
         // Mettre à jour la position précédente
         previousPosition = controlledBall.transform.position;
-
+        /*
         Debug.Log("début d'un nouveau Log-------------------------------");
         Debug.Log("distance balle à centre = " + currentDistance);
         Debug.Log("angle = " + angle);
         Debug.Log("totalAngleTravelled = " + totalAngleTravelled);
-
+        */
 
 
         // Vérifier si l'objet a parcouru au moins 360 degrés (cercle complet)
@@ -437,10 +439,17 @@ private IEnumerator ChangeBallColor()
     }
 
     //Fonction qui d�clenche la proc�dure compl�te de changement de niveau
-    private void GoToNextLevel()
+    public void GoToNextLevel()
     {
+        if (currentLevel == 1 | currentLevel == 2 | currentLevel == 3)
+        {
+            Destroy(levelBarriers[currentLevel - 1]);
+        }
         currentLevel++;
-        Destroy(levelBarriers[currentLevel-2]);
+        if (currentLevel == 1 | currentLevel == 2 | currentLevel == 3)
+        {
+            StartCoroutine(hintManager.HintCoroutine(currentLevel, athleteID));
+        }
         displayManager.DisplayProcess();
 
     }
