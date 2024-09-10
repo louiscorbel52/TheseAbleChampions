@@ -300,6 +300,7 @@ private IEnumerator ChangeBallColor()
             //Condition de passage au niveau 4
             if (currentLevel == 3 & CheckForSpeed())
             {
+                MoveNPCBallsHigher();
                 GoToNextLevel();
             }
 
@@ -344,6 +345,7 @@ private IEnumerator ChangeBallColor()
             {
                 if (controlledBall.GetComponent<Renderer>().material.color == Color.green)
                 {
+                    MoveNPCBallsHigher();
                     GoToNextLevel();
                     Debug.Log("Barrier is green, proceeding with level 3 actions.");
                 }
@@ -357,6 +359,38 @@ private IEnumerator ChangeBallColor()
             }
         }
         
+    }
+
+    // Method to move NPC balls higher by 8 units
+    private void MoveNPCBallsHigher()
+    {
+        // Move level 1 NPCs
+        MoveChildrenHigher(level1NPC);
+
+        // Move level 2 NPCs
+        MoveChildrenHigher(level2NPC);
+
+        // Move level 3 NPCs
+        MoveChildrenHigher(level3NPC);
+    }
+
+    // Helper method to move children of a parent GameObject higher by 8 units
+    private void MoveChildrenHigher(GameObject parent)
+    {
+        foreach (Transform child in parent.transform)
+        {
+            // Check the gameTag of the child
+            int gameTag;
+            if (int.TryParse(child.gameObject.tag, out gameTag) && (gameTag == 1 || gameTag == 2))
+            {
+                // Skip moving this child
+                continue;
+            }
+
+            Vector3 newPosition = child.position;
+            newPosition.y += 8;
+            child.position = newPosition;
+        }
     }
 
     //Renvoie true si la boule est assez rapide, false sinon

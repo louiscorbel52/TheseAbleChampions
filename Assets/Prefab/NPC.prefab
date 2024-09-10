@@ -149,3 +149,8 @@ MonoBehaviour:
   velocity: 0
   marginOfError: 0.5
   dotPrefab: {fileID: 7004505548650902120, guid: f7d9605ef4c0441ea9d20d90e13a6ad3, type: 3}
+  needHint: 0
+  level: 0
+  distance: 10
+  assiaPopup: {fileID: 0}
+  oleksandrPopup: {fileID: 0}

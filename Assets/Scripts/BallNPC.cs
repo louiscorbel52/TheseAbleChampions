@@ -110,15 +110,21 @@ public class BallNPC : MonoBehaviour
                         // Set the athleteID in the singleton to the converted integer
                         GateOpener.Instance.athleteID = tagAsInt;
                         // Destroy the GameObject
-                        gameObject.GetComponent<Renderer>().enabled = false;
+                        Destroy(gameObject);
                         // Create a new controlled ball at the position of the clicked object
+                        Debug.Log("Creating a controlled ball...");
+                        Debug.Log("GateOpener.Instance.controlledBall = " + GateOpener.Instance.controlledBall);
                         GameObject controlledBall = Instantiate(dotPrefab, transform.position, Quaternion.identity);
-                        // Increment the current level in the singleton
-                        GateOpener.Instance.GoToNextLevel();
                         // Set the controlled ball in the singleton
                         GateOpener.Instance.controlledBall = controlledBall;
                         // Set the original color of the ball in the singleton
                         GateOpener.Instance.ballOriginalColor = controlledBall.GetComponent<Renderer>().material.color;
+
+                        Debug.Log("controlled ball created and assigned to the singleton.");
+                        Debug.Log("GateOpener.Instance.controlledBall = " + GateOpener.Instance.controlledBall);
+                        // Increment the current level in the singleton
+                        GateOpener.Instance.GoToNextLevel();
+
 
                     }
 
