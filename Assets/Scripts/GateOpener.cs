@@ -384,8 +384,11 @@ private IEnumerator ChangeBallColor()
             }
 
             else if(currentLevel == 2){
-                if(StartingPoint.y<yMinimumValueForLevel2Assia){
+
+                if (StartingPoint.y<yMinimumValueForLevel2Assia){
                     GoToNextLevel();
+
+                    level3NPC.SetActive(true);
                 }
                 else{
                     Debug.Log($"You are not low enough Starting point is {StartingPoint.y} and minimum value is {yMinimumValueForLevel2Assia}");

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1601,7 +1601,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544547879}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2534,7 +2534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8806148890039317013, guid: a0ab011ec60c49943a7a23f8afccf41f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -5.32
       objectReference: {fileID: 0}
     - target: {fileID: 8806148890039317013, guid: a0ab011ec60c49943a7a23f8afccf41f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2874,8 +2874,8 @@ MonoBehaviour:
   - {fileID: 2141434637}
   levelBarriersTextures:
   - {fileID: 2032994110}
-  - {fileID: 1325607733}
   - {fileID: 268742387}
+  - {fileID: 1325607733}
   moveSyncWithNPCMargin: 1
   oleksanderSphereCenter: {fileID: 555374647}
   oleksanderCernterPoint: {x: 0, y: 0}
@@ -5138,7 +5138,7 @@ Transform:
   m_GameObject: {fileID: 1631745106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 4.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5528,7 +5528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8806148890039317013, guid: a0ab011ec60c49943a7a23f8afccf41f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -5.32
       objectReference: {fileID: 0}
     - target: {fileID: 8806148890039317013, guid: a0ab011ec60c49943a7a23f8afccf41f, type: 3}
       propertyPath: m_LocalRotation.w
