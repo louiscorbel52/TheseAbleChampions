@@ -7,16 +7,17 @@ public class BarrierTrigger : MonoBehaviour
 {
     private int protectedLevel;
     [SerializeField] GateOpener gateOpener;
+    [SerializeField] int gateID = -1;
     // Start is called before the first frame update
     void Start()
     {
         string objectName = gameObject.name;
         if (objectName.Length > 0)
         {
-            // Récupère le dernier caractère du nom
+            // Rï¿½cupï¿½re le dernier caractï¿½re du nom
             char lastChar = objectName[objectName.Length - 1];
 
-            // Essaie de convertir le dernier caractère en int
+            // Essaie de convertir le dernier caractï¿½re en int
             int number;
             if (int.TryParse(lastChar.ToString(), out number))
             {
@@ -24,12 +25,16 @@ public class BarrierTrigger : MonoBehaviour
             }
             else
             {
-                Debug.Log("Le dernier caractère n'est pas un chiffre.");
+                Debug.Log("Le dernier caractï¿½re n'est pas un chiffre.");
             }
         }
     }
     private void OnCollisionEnter(Collision other)
     {
-        gateOpener.OpenGateAttempt(protectedLevel);
+        //gateOpener.OpenGateAttempt(protectedLevel);
+        if(other.gameObject.tag == "PlayerDot")
+            {
+                gateOpener.OpenGateAttempt(gateID);
+            }
     }
 }

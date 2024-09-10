@@ -5,6 +5,9 @@ using UnityEngine;
 public class BallNPC : MonoBehaviour
 {
     public GameObject quadPrefab;
+    public GameObject swimmerHoverTextureQuad; // Public variable for the hover quad
+    public GameObject runnerHoverTextureQuad; // Public variable for the hover quad
+
     //public Material basePlayerMaterial;
     public float velocity;
     public float marginOfError = 0.5f;
@@ -39,7 +42,7 @@ public class BallNPC : MonoBehaviour
     private float fastSpeed = 15f;
     private float fastDistance = 15f;
     private bool moveDown = true;
-
+    private GameObject hoverQuadInstance;
     public GameObject assiaPopup;
     public GameObject oleksandrPopup;
 
@@ -94,7 +97,7 @@ public class BallNPC : MonoBehaviour
                     {
                         Debug.Log($"{gameObject.name} was clicked within the margin of error and will be destroyed!");
                         // Deactivate collider of clicked object
-                        gameObject.GetComponent<Collider>().enabled = false;
+                        //gameObject.GetComponent<Collider>().enabled = false;
 
                         // Convert the tag to an integer
                         int tagAsInt;
@@ -223,5 +226,73 @@ public class BallNPC : MonoBehaviour
             moveDown = true;
         }
 
+    }
+
+    private void OnMouseEnter()
+    {
+        if (tag == "1" && hoverQuadInstance == null)
+        {
+            // Disable the existing quad
+            if (this.transform.GetChild(0) != null)
+            {
+                this.transform.GetChild(0).gameObject.SetActive(false);
+            }
+
+            // Instantiate the hover quad
+            hoverQuadInstance = Instantiate(swimmerHoverTextureQuad);
+
+            // Position the hover quad just above the NPC on the Z axis
+            Vector3 npcPosition = transform.position;
+            hoverQuadInstance.transform.position = new Vector3(npcPosition.x, npcPosition.y, npcPosition.z + 1); // Adjust the offset as needed
+
+            // Optionally, parent the hover quad to the NPC to maintain relative positioning
+            hoverQuadInstance.transform.SetParent(transform);
+        }
+        else if (tag == "2" && hoverQuadInstance == null)
+        {
+            // Disable the existing quad
+            if (this.transform.GetChild(0) != null)
+            {
+                this.transform.GetChild(0).gameObject.SetActive(false);
+            }
+
+            // Instantiate the hover quad
+            hoverQuadInstance = Instantiate(runnerHoverTextureQuad);
+
+            // Position the hover quad just above the NPC on the Z axis
+            Vector3 npcPosition = transform.position;
+            hoverQuadInstance.transform.position = new Vector3(npcPosition.x, npcPosition.y, npcPosition.z + 1); // Adjust the offset as needed
+
+            // Optionally, parent the hover quad to the NPC to maintain relative positioning
+            hoverQuadInstance.transform.SetParent(transform);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (tag == "1" && hoverQuadInstance != null)
+        {
+            // Destroy the hover quad
+            Destroy(hoverQuadInstance);
+            hoverQuadInstance = null;
+
+            // Re-enable the existing quad
+            if (this.transform.GetChild(0) != null)
+            {
+                this.transform.GetChild(0).gameObject.SetActive(true);
+            }
+        }
+        if (tag == "2" && hoverQuadInstance != null)
+        {
+            // Destroy the hover quad
+            Destroy(hoverQuadInstance);
+            hoverQuadInstance = null;
+
+            // Re-enable the existing quad
+            if (this.transform.GetChild(0) != null)
+            {
+                this.transform.GetChild(0).gameObject.SetActive(true);
+            }
+        }
     }
 }

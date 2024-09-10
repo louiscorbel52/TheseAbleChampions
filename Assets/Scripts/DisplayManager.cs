@@ -20,7 +20,9 @@ public class DisplayManager : MonoBehaviour
         assiaEndGamePopup.SetActive(false);
         oleksandrEndGamePopup.SetActive(false);
     }
-
+/// <summary>
+/// Display popup for the athlete based on the level
+/// </summary>
     public void DisplayProcess()
     {
         Time.timeScale = 0; //met le jeu en pause

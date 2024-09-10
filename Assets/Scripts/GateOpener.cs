@@ -29,6 +29,7 @@ public class GateOpener : MonoBehaviour
     public Sprite endGameBackgroundImage;
 
     private bool changingColor = false;
+    private bool isGreen = false;
 
 
     [SerializeField] private DisplayManager displayManager;
@@ -88,6 +89,7 @@ public class GateOpener : MonoBehaviour
     void Start()
     {
         Cursor.SetCursor(customCursorTexture, Vector2.zero, CursorMode.Auto);
+
         hintManager = GetComponent<HintManager>();
 
         currentLevel = 0;
@@ -289,7 +291,8 @@ public class GateOpener : MonoBehaviour
                 else if (rb.velocity.magnitude >= marginOfError && changingColor == true)
                 {
                     // Stop the coroutine if the ball moves
-                    if (changeColorCoroutine != null && controlledBall.transform.GetChild(0).GetComponent<Renderer>().material == greenPlayerMaterial)
+                    //if (changeColorCoroutine != null && controlledBall.transform.GetChild(0).GetComponent<Renderer>().material.name != "GreenPlayerMaterial")
+                    if (changeColorCoroutine != null && isGreen == false)
                     {
                         StopCoroutine(changeColorCoroutine);
                         changingColor = false;
@@ -297,6 +300,7 @@ public class GateOpener : MonoBehaviour
                         controlledBall.transform.GetChild(0).GetComponent<Renderer>().material = basePlayerMaterial;;
                     }
                 }
+                print(isGreen);
             }
 
         }     
@@ -305,16 +309,22 @@ public class GateOpener : MonoBehaviour
 private IEnumerator ChangeBallColor()
 {
     List<Material> playerMaterials = new List<Material>{redPlayerMaterial,orangePlayerMaterial,greenPlayerMaterial}; // Red, Orange, Green
-
+    int i = 0;
     foreach (Material mat in playerMaterials)
     {
         controlledBall.transform.GetChild(0).GetComponent<Renderer>().material = mat;
+        if(i == 2){
+            isGreen = true;
+        }
         yield return new WaitForSeconds(1.0f);
+
+        i++;
     }
 
     yield return new WaitForSeconds(1.0f);
 
     controlledBall.transform.GetChild(0).GetComponent<Renderer>().material = basePlayerMaterial;
+    isGreen = false;
     changingColor = false;
 }
 
@@ -344,7 +354,7 @@ private IEnumerator ChangeBallColor()
                 StartCoroutine(FadeBackgroundToNew(endGameBackgroundImage)); // Start the fade coroutine
             }
 
-            if (currentLevel == 4 )
+            else if (currentLevel == 4 )
             {
                 currentLevel++;
                 displayManager.DisplayProcess();
@@ -384,7 +394,7 @@ private IEnumerator ChangeBallColor()
             else if (currentLevel == 3)
             {
                 // ICI CHANGER LA CONDITION PAR CHECK SI ENDANT EST GREEN MATERIAL
-                if (controlledBall.transform.GetChild(0).GetComponent<Renderer>().material.name == "GreenPlayerMaterial (Instance)")
+                if (isGreen)
                 {
                     GoToNextLevel();
                     MoveNPCBallsHigher();

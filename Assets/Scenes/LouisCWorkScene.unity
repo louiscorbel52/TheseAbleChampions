@@ -1271,7 +1271,6 @@ GameObject:
   - component: {fileID: 544547885}
   - component: {fileID: 544547884}
   - component: {fileID: 544547883}
-  - component: {fileID: 544547882}
   - component: {fileID: 544547881}
   - component: {fileID: 544547880}
   m_Layer: 0
@@ -1315,19 +1314,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &544547882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544547879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9342d1b4dc2794e42ba2106b52fb611d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gateOpener: {fileID: 1004113132}
 --- !u!23 &544547883
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2191,6 +2177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateOpener: {fileID: 1004113132}
+  gateID: 3
 --- !u!65 &931644026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2271,7 +2258,7 @@ Transform:
   m_GameObject: {fileID: 931644024}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.26, y: 13.7, z: 0}
+  m_LocalPosition: {x: -25.26, y: 15, z: 0}
   m_LocalScale: {x: 25.287498, y: 1, z: 11.106}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3070,6 +3057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateOpener: {fileID: 1004113132}
+  gateID: 3
 --- !u!65 &1167251725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4296,6 +4284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateOpener: {fileID: 1004113132}
+  gateID: 2
 --- !u!65 &1562070037
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5117,7 +5106,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.8923659, w: 0.45131284}
   m_LocalPosition: {x: -18.2679, y: 3.5839, z: 0}
-  m_LocalScale: {x: 15.098612, y: 1, z: 11.106}
+  m_LocalScale: {x: 12.28, y: 1, z: 11.106}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 461579537}
@@ -7495,6 +7484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateOpener: {fileID: 1004113132}
+  gateID: 4
 --- !u!65 &2141434639
 BoxCollider:
   m_ObjectHideFlags: 0

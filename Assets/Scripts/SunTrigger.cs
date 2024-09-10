@@ -15,7 +15,10 @@ public class SunTrigger : MonoBehaviour
         }
         if (this.name == "Sun")
         {
-            opener.OpenGateAttempt(5);
+            if(other.gameObject.tag == "PlayerDot")
+            {
+                opener.OpenGateAttempt(5);
+            }           
 
         }
     }
