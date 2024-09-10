@@ -189,9 +189,12 @@ public class BallNPC : MonoBehaviour
             }
         
     }
+
+    /// <summary>
+    /// Fonction pour l'indice 3 d'oleksander
+    /// </summary>
     private void MoveFast()
     {
-        Debug.Log("switch to go up  = " + Vector2.Distance(center, transform.position));
         if (moveDown)
         {
             // Déplacer l'objet vers le bas en fonction de la vitesse et du temps

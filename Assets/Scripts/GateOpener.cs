@@ -24,6 +24,7 @@ public class GateOpener : MonoBehaviour
 
     //Gestion des barri�res
     [SerializeField] private GameObject[] levelBarriers;
+    [SerializeField] private GameObject[] levelBarriersTextures;
 
     //~~~~Oleksander 
     //Niveau 2 v1
@@ -477,7 +478,7 @@ private IEnumerator ChangeBallColor()
     {
         if (currentLevel == 1 | currentLevel == 2 | currentLevel == 3)
         {
-            Destroy(levelBarriers[currentLevel - 1]);
+            OpenBarrier();
         }
         currentLevel++;
         if (currentLevel == 1 | currentLevel == 2 | currentLevel == 3)
@@ -501,6 +502,17 @@ private IEnumerator ChangeBallColor()
                 }
             }
         }
+    }
+
+    private void OpenBarrier()
+    {
+
+        Renderer render = levelBarriersTextures[currentLevel - 1].GetComponent<Renderer>();
+        Color c = render.material.color;
+        c.a *= 0.2f;
+        render.material.color = c;
+
+        Destroy(levelBarriers[currentLevel - 1]);
     }
 
     // Function to scale a value from one range to another
