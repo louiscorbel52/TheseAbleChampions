@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BallNPC : MonoBehaviour
 {
+    public GameObject quadPrefab;
+    //public Material basePlayerMaterial;
     public float velocity;
     public float marginOfError = 0.5f;
     public GameObject dotPrefab;
@@ -115,6 +117,14 @@ public class BallNPC : MonoBehaviour
                         Debug.Log("Creating a controlled ball...");
                         Debug.Log("GateOpener.Instance.controlledBall = " + GateOpener.Instance.controlledBall);
                         GameObject controlledBall = Instantiate(dotPrefab, transform.position, Quaternion.identity);
+                        GameObject quad = Instantiate(quadPrefab, transform.position, Quaternion.identity);
+
+                        // Position the quad just above the NPC on the Z axis
+                        Vector3 controlledBallPos = controlledBall.transform.position;
+                        quad.transform.position = new Vector3(controlledBallPos.x, controlledBallPos.y, controlledBallPos.z + 1); // Adjust the offset as needed
+                        //quad.GetComponent<Renderer>().material = basePlayerMaterial;
+                        // Optionally, parent the quad to the NPC to maintain relative positioning
+                        quad.transform.SetParent(controlledBall.transform);
                         // Set the controlled ball in the singleton
                         GateOpener.Instance.controlledBall = controlledBall;
                         // Set the original color of the ball in the singleton
