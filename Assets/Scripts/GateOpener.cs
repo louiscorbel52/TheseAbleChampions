@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 using System;
 
 public class GateOpener : MonoBehaviour
 {
     public static GateOpener Instance;
+    public Texture2D customCursorTexture; // Public variable to hold the custom cursor texture
     private HintManager hintManager;
+    public GameObject quadPrefab;
+    public Material greenDotMaterial;
+    public Material greenPlayerMaterial;
+    public Material orangePlayerMaterial;
+    public Material redPlayerMaterial;
+    public Material basePlayerMaterial;
     public int currentLevel;
     public int athleteID = -1;
 
@@ -16,6 +24,9 @@ public class GateOpener : MonoBehaviour
     public string assiaLevel1SoundName = "bump";  // The name of the sound clip to play
 
     public float yMinimumValueForLevel2Assia = 5.0f;
+
+    public GameObject backgroundPanel;
+    public Sprite endGameBackgroundImage;
 
     private bool changingColor = false;
 
@@ -77,6 +88,7 @@ public class GateOpener : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.SetCursor(customCursorTexture, Vector2.zero, CursorMode.Auto);
         hintManager = GetComponent<HintManager>();
 
         currentLevel = 0;
@@ -85,6 +97,8 @@ public class GateOpener : MonoBehaviour
         level2NPC.SetActive(false);
         level3NPC.SetActive(false);
         levelNPC = new GameObject[] { level1NPC, level2NPC, level3NPC };
+
+        AttachQuadsAboveNPCs();
 
         lastPosition = transform.position;
         StartingPoint = transform.position;
@@ -110,24 +124,26 @@ public class GateOpener : MonoBehaviour
             if (savedAthleteID == 1)
             {
                 GameObject objWithTag1 = GameObject.FindWithTag("1");
+                Transform childTransform1 = objWithTag1.transform.GetChild(0); // Assuming the unique child is the first child
                 if (objWithTag1 != null)
                 {
-                    Renderer renderer = objWithTag1.GetComponent<Renderer>();
+                    Renderer renderer = childTransform1.GetComponent<Renderer>();
                     if (renderer != null)
                     {
-                        renderer.material.color = Color.green;
+                        renderer.material = greenDotMaterial;
                     }
                 }
             }
             else if (savedAthleteID == 2)
             {
                 GameObject objWithTag2 = GameObject.FindWithTag("2");
+                Transform childTransform2 = objWithTag2.transform.GetChild(0); // Assuming the unique child is the first child
                 if (objWithTag2 != null)
                 {
-                    Renderer renderer = objWithTag2.GetComponent<Renderer>();
+                    Renderer renderer = childTransform2.GetComponent<Renderer>();
                     if (renderer != null)
                     {
-                        renderer.material.color = Color.green;
+                        renderer.material = greenDotMaterial;
                     }
                 }
             }
@@ -144,6 +160,29 @@ public class GateOpener : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void AttachQuadsAboveNPCs()
+    {
+        AttachQuadsAbove(level1NPC);
+        AttachQuadsAbove(level2NPC);
+        AttachQuadsAbove(level3NPC);
+    }
+
+    private void AttachQuadsAbove(GameObject parentNPC)
+    {
+        foreach (Transform npc in parentNPC.transform)
+        {
+            // Instantiate a new quad
+            GameObject quad = Instantiate(quadPrefab);
+
+            // Position the quad just above the NPC on the Z axis
+            Vector3 npcPosition = npc.position;
+            quad.transform.position = new Vector3(npcPosition.x, npcPosition.y, npcPosition.z + 1); // Adjust the offset as needed
+
+            // Optionally, parent the quad to the NPC to maintain relative positioning
+            quad.transform.SetParent(npc);
         }
     }
 
@@ -251,12 +290,12 @@ public class GateOpener : MonoBehaviour
                 else if (rb.velocity.magnitude >= marginOfError && changingColor == true)
                 {
                     // Stop the coroutine if the ball moves
-                    if (changeColorCoroutine != null && controlledBall.GetComponent<Renderer>().material.color != Color.green)
+                    if (changeColorCoroutine != null && controlledBall.transform.GetChild(0).GetComponent<Renderer>().material == greenPlayerMaterial)
                     {
                         StopCoroutine(changeColorCoroutine);
                         changingColor = false;
                         // Optionally reset the barrier color immediately
-                        controlledBall.GetComponent<Renderer>().material.color = ballOriginalColor;
+                        controlledBall.transform.GetChild(0).GetComponent<Renderer>().material = basePlayerMaterial;;
                     }
                 }
             }
@@ -266,17 +305,17 @@ public class GateOpener : MonoBehaviour
 
 private IEnumerator ChangeBallColor()
 {
-    Color[] colors = { Color.red, new Color(1.0f, 0.65f, 0.0f), Color.green }; // Red, Orange, Green
+    List<Material> playerMaterials = new List<Material>{redPlayerMaterial,orangePlayerMaterial,greenPlayerMaterial}; // Red, Orange, Green
 
-    foreach (Color color in colors)
+    foreach (Material mat in playerMaterials)
     {
-        controlledBall.GetComponent<Renderer>().material.color = color;
+        controlledBall.transform.GetChild(0).GetComponent<Renderer>().material = mat;
         yield return new WaitForSeconds(1.0f);
     }
 
     yield return new WaitForSeconds(1.0f);
 
-    controlledBall.GetComponent<Renderer>().material.color = ballOriginalColor;
+    controlledBall.transform.GetChild(0).GetComponent<Renderer>().material = basePlayerMaterial;
     changingColor = false;
 }
 
@@ -301,8 +340,9 @@ private IEnumerator ChangeBallColor()
             //Condition de passage au niveau 4
             if (currentLevel == 3 & CheckForSpeed())
             {
-                MoveNPCBallsHigher();
                 GoToNextLevel();
+                MoveNPCBallsHigher();
+                StartCoroutine(FadeBackgroundToNew(endGameBackgroundImage)); // Start the fade coroutine
             }
 
             if (currentLevel == 4 )
@@ -344,10 +384,12 @@ private IEnumerator ChangeBallColor()
 
             else if (currentLevel == 3)
             {
-                if (controlledBall.GetComponent<Renderer>().material.color == Color.green)
+                // ICI CHANGER LA CONDITION PAR CHECK SI ENDANT EST GREEN MATERIAL
+                if (controlledBall.transform.GetChild(0).GetComponent<Renderer>().material.name == "GreenPlayerMaterial (Instance)")
                 {
-                    MoveNPCBallsHigher();
                     GoToNextLevel();
+                    MoveNPCBallsHigher();
+                    StartCoroutine(FadeBackgroundToNew(endGameBackgroundImage)); // Start the fade coroutine
                     Debug.Log("Barrier is green, proceeding with level 3 actions.");
                 }
             }
@@ -360,6 +402,48 @@ private IEnumerator ChangeBallColor()
             }
         }
         
+    }
+
+    // Coroutine to fade the background to a new one
+    private IEnumerator FadeBackgroundToNew(Sprite newBackground)
+    {
+        float duration = 2.0f; // Duration of the fade in seconds
+        float elapsedTime = 0;
+
+        // Assuming you have a reference to the current background image
+        Image currentBackground = backgroundPanel.GetComponent<Image>();
+        Color originalColor = currentBackground.color;
+
+        // Create a new GameObject for the new background
+        GameObject newBackgroundObject = new GameObject("NewBackground");
+        Image newBackgroundImage = newBackgroundObject.AddComponent<Image>();
+        newBackgroundImage.sprite = newBackground;
+        newBackgroundImage.color = new Color(1, 1, 1, 0); // Start with transparent
+
+        // Copy RectTransform properties from the current background
+        RectTransform currentRectTransform = currentBackground.GetComponent<RectTransform>();
+        RectTransform newRectTransform = newBackgroundObject.GetComponent<RectTransform>();
+        newRectTransform.SetParent(currentRectTransform.parent, false);
+        newRectTransform.anchorMin = currentRectTransform.anchorMin;
+        newRectTransform.anchorMax = currentRectTransform.anchorMax;
+        newRectTransform.anchoredPosition = currentRectTransform.anchoredPosition;
+        newRectTransform.sizeDelta = currentRectTransform.sizeDelta;    
+
+        while (elapsedTime < duration)
+        {
+            float alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
+            newBackgroundImage.color = new Color(1, 1, 1, alpha);
+            currentBackground.color = new Color(1, 1, 1, 1 - alpha);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final alpha values are set
+        newBackgroundImage.color = new Color(1, 1, 1, 1);
+        currentBackground.color = new Color(1, 1, 1, 0);
+
+        // Optionally, destroy the old background object if no longer needed
+        //Destroy(currentBackground.gameObject);
     }
 
     // Method to move NPC balls higher by 8 units
@@ -388,10 +472,29 @@ private IEnumerator ChangeBallColor()
                 continue;
             }
 
-            Vector3 newPosition = child.position;
-            newPosition.y += 8;
-            child.position = newPosition;
+            StartCoroutine(MoveChildGradually(child));
         }
+    }
+
+    // Coroutine to move a child GameObject gradually
+    private IEnumerator MoveChildGradually(Transform child)
+    {
+        Vector3 startPosition = child.position;
+        Vector3 endPosition = startPosition;
+        endPosition.y += 8; // Target position
+
+        float duration = 2.0f; // Duration of the movement in seconds
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            child.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final position is set
+        child.position = endPosition;
     }
 
     //Renvoie true si la boule est assez rapide, false sinon

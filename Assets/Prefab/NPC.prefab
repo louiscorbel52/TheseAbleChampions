@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4241289eb8ffa86489efd4c2ad641889, type: 2}
+  - {fileID: 2100000, guid: 6dbeee02f86ed91488036ef9cb282a60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,7 +132,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 90
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!114 &2050523117998639084
 MonoBehaviour:
@@ -146,9 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2156a1f33d04d4e8047d2373956529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quadPrefab: {fileID: 3707099835121606593, guid: 6db1f3de45f8444059d4ca5e2f2b59d9, type: 3}
+  basePlayerMaterial: {fileID: 2100000, guid: 4a72fa7631c72408c851f53d69e0aaf3, type: 2}
   velocity: 0
   marginOfError: 0.5
-  dotPrefab: {fileID: 7004505548650902120, guid: f7d9605ef4c0441ea9d20d90e13a6ad3, type: 3}
+  dotPrefab: {fileID: 652440383861493473, guid: 3c3ff5082bdea4e11bbd3e1bbaeb01d0, type: 3}
   needHint: 0
   level: 0
   distance: 10
