@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 using System;
 
 public class GateOpener : MonoBehaviour
@@ -16,6 +17,9 @@ public class GateOpener : MonoBehaviour
     public string assiaLevel1SoundName = "bump";  // The name of the sound clip to play
 
     public float yMinimumValueForLevel2Assia = 5.0f;
+
+    public GameObject backgroundPanel;
+    public Sprite endGameBackgroundImage;
 
     private bool changingColor = false;
 
@@ -300,8 +304,9 @@ private IEnumerator ChangeBallColor()
             //Condition de passage au niveau 4
             if (currentLevel == 3 & CheckForSpeed())
             {
-                MoveNPCBallsHigher();
                 GoToNextLevel();
+                MoveNPCBallsHigher();
+                StartCoroutine(FadeBackgroundToNew(endGameBackgroundImage)); // Start the fade coroutine
             }
 
             if (currentLevel == 4 )
@@ -345,8 +350,9 @@ private IEnumerator ChangeBallColor()
             {
                 if (controlledBall.GetComponent<Renderer>().material.color == Color.green)
                 {
-                    MoveNPCBallsHigher();
                     GoToNextLevel();
+                    MoveNPCBallsHigher();
+                    StartCoroutine(FadeBackgroundToNew(endGameBackgroundImage)); // Start the fade coroutine
                     Debug.Log("Barrier is green, proceeding with level 3 actions.");
                 }
             }
@@ -359,6 +365,48 @@ private IEnumerator ChangeBallColor()
             }
         }
         
+    }
+
+    // Coroutine to fade the background to a new one
+    private IEnumerator FadeBackgroundToNew(Sprite newBackground)
+    {
+        float duration = 2.0f; // Duration of the fade in seconds
+        float elapsedTime = 0;
+
+        // Assuming you have a reference to the current background image
+        Image currentBackground = backgroundPanel.GetComponent<Image>();
+        Color originalColor = currentBackground.color;
+
+        // Create a new GameObject for the new background
+        GameObject newBackgroundObject = new GameObject("NewBackground");
+        Image newBackgroundImage = newBackgroundObject.AddComponent<Image>();
+        newBackgroundImage.sprite = newBackground;
+        newBackgroundImage.color = new Color(1, 1, 1, 0); // Start with transparent
+
+        // Copy RectTransform properties from the current background
+        RectTransform currentRectTransform = currentBackground.GetComponent<RectTransform>();
+        RectTransform newRectTransform = newBackgroundObject.GetComponent<RectTransform>();
+        newRectTransform.SetParent(currentRectTransform.parent, false);
+        newRectTransform.anchorMin = currentRectTransform.anchorMin;
+        newRectTransform.anchorMax = currentRectTransform.anchorMax;
+        newRectTransform.anchoredPosition = currentRectTransform.anchoredPosition;
+        newRectTransform.sizeDelta = currentRectTransform.sizeDelta;    
+
+        while (elapsedTime < duration)
+        {
+            float alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
+            newBackgroundImage.color = new Color(1, 1, 1, alpha);
+            currentBackground.color = new Color(1, 1, 1, 1 - alpha);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final alpha values are set
+        newBackgroundImage.color = new Color(1, 1, 1, 1);
+        currentBackground.color = new Color(1, 1, 1, 0);
+
+        // Optionally, destroy the old background object if no longer needed
+        //Destroy(currentBackground.gameObject);
     }
 
     // Method to move NPC balls higher by 8 units
@@ -387,10 +435,29 @@ private IEnumerator ChangeBallColor()
                 continue;
             }
 
-            Vector3 newPosition = child.position;
-            newPosition.y += 8;
-            child.position = newPosition;
+            StartCoroutine(MoveChildGradually(child));
         }
+    }
+
+    // Coroutine to move a child GameObject gradually
+    private IEnumerator MoveChildGradually(Transform child)
+    {
+        Vector3 startPosition = child.position;
+        Vector3 endPosition = startPosition;
+        endPosition.y += 8; // Target position
+
+        float duration = 2.0f; // Duration of the movement in seconds
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            child.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final position is set
+        child.position = endPosition;
     }
 
     //Renvoie true si la boule est assez rapide, false sinon

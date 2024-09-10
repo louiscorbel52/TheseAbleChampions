@@ -6784,6 +6784,8 @@ MonoBehaviour:
   - {fileID: 554368837}
   assiaLevel1SoundName: bump
   yMinimumValueForLevel2Assia: 5
+  backgroundPanel: {fileID: 1861984137}
+  endGameBackgroundImage: {fileID: 21300000, guid: 8c59362c3c191834eaff6610403e2329, type: 3}
   displayManager: {fileID: 1921633990}
   levelBarriers:
   - {fileID: 1172926766}
