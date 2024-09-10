@@ -6,6 +6,7 @@ using System;
 public class GateOpener : MonoBehaviour
 {
     public static GateOpener Instance;
+    
     public int currentLevel;
     public int athleteID = -1;
 
@@ -69,8 +70,7 @@ public class GateOpener : MonoBehaviour
     [SerializeField] public GameObject controlledBall;
     private Rigidbody rb;
 
-    private Renderer barrier4Renderer;
-    private Color barrier4OriginalColor;
+    public Color ballOriginalColor;
     private Coroutine changeColorCoroutine;
 
     // Start is called before the first frame update
@@ -86,14 +86,49 @@ public class GateOpener : MonoBehaviour
         lastPosition = transform.position;
         StartingPoint = transform.position;
 
-        barrier4Renderer = levelBarriers[2].GetComponent<Renderer>();
-        barrier4OriginalColor = barrier4Renderer.material.color;
+        // Load the saved athlete ID and change color accordingly
+        LoadState();
+
+        //ballOriginalColor = controlledBall.GetComponent<Renderer>().material.color;
 
         //Oleksander
 
         // Initialise la valeur de hauteur à dépasser pour entrer au niveau 3
         yThinkOutBox = levelBarriers[1].transform.position.y;
 
+    }
+
+    private void LoadState()
+    {
+        if (PlayerPrefs.HasKey("CurrentAthleteID"))
+        {
+            int savedAthleteID = PlayerPrefs.GetInt("CurrentAthleteID");
+
+            if (savedAthleteID == 1)
+            {
+                GameObject objWithTag1 = GameObject.FindWithTag("1");
+                if (objWithTag1 != null)
+                {
+                    Renderer renderer = objWithTag1.GetComponent<Renderer>();
+                    if (renderer != null)
+                    {
+                        renderer.material.color = Color.green;
+                    }
+                }
+            }
+            else if (savedAthleteID == 2)
+            {
+                GameObject objWithTag2 = GameObject.FindWithTag("2");
+                if (objWithTag2 != null)
+                {
+                    Renderer renderer = objWithTag2.GetComponent<Renderer>();
+                    if (renderer != null)
+                    {
+                        renderer.material.color = Color.green;
+                    }
+                }
+            }
+        }
     }
 
     void Awake()
@@ -206,19 +241,19 @@ public class GateOpener : MonoBehaviour
                 float marginOfError = 0.1f;
                 if (rb.velocity.magnitude < marginOfError && changingColor == false)
                 {
-                    changeColorCoroutine = StartCoroutine(ChangeBarrierColor());
+                    changeColorCoroutine = StartCoroutine(ChangeBallColor());
                     changingColor = true;
                 }
 
                 else if (rb.velocity.magnitude >= marginOfError && changingColor == true)
                 {
                     // Stop the coroutine if the ball moves
-                    if (changeColorCoroutine != null && barrier4Renderer.material.color != Color.green)
+                    if (changeColorCoroutine != null && controlledBall.GetComponent<Renderer>().material.color != Color.green)
                     {
                         StopCoroutine(changeColorCoroutine);
                         changingColor = false;
                         // Optionally reset the barrier color immediately
-                        barrier4Renderer.material.color = barrier4OriginalColor;
+                        controlledBall.GetComponent<Renderer>().material.color = ballOriginalColor;
                     }
                 }
             }
@@ -226,19 +261,19 @@ public class GateOpener : MonoBehaviour
         }     
     }
 
-private IEnumerator ChangeBarrierColor()
+private IEnumerator ChangeBallColor()
 {
     Color[] colors = { Color.red, new Color(1.0f, 0.65f, 0.0f), Color.green }; // Red, Orange, Green
 
     foreach (Color color in colors)
     {
-        barrier4Renderer.material.color = color;
+        controlledBall.GetComponent<Renderer>().material.color = color;
         yield return new WaitForSeconds(1.0f);
     }
 
     yield return new WaitForSeconds(1.0f);
 
-    barrier4Renderer.material.color = barrier4OriginalColor;
+    controlledBall.GetComponent<Renderer>().material.color = ballOriginalColor;
     changingColor = false;
 }
 
@@ -305,8 +340,7 @@ private IEnumerator ChangeBarrierColor()
 
             else if (currentLevel == 3)
             {
-                Renderer barrier4Renderer = levelBarriers[2].GetComponent<Renderer>();
-                if (barrier4Renderer.material.color == Color.green)
+                if (controlledBall.GetComponent<Renderer>().material.color == Color.green)
                 {
                     GoToNextLevel();
                     Debug.Log("Barrier is green, proceeding with level 3 actions.");

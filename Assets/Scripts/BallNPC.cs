@@ -59,7 +59,8 @@ public class BallNPC : MonoBehaviour
                     List<string> validValues = new List<string> { "1", "2", "3" };
 
                     if(validValues.Contains(objectTag))
-                    {
+                    { 
+
                         Debug.Log($"{gameObject.name} was clicked within the margin of error and will be destroyed!");
                         // Deactivate collider of clicked object
                         gameObject.GetComponent<Collider>().enabled = false;
@@ -80,13 +81,16 @@ public class BallNPC : MonoBehaviour
                         // Set the athleteID in the singleton to the converted integer
                         GateOpener.Instance.athleteID = tagAsInt;
                         // Destroy the GameObject
-                        Destroy(gameObject);
+                        gameObject.GetComponent<Renderer>().enabled = false;
                         // Create a new controlled ball at the position of the clicked object
                         GameObject controlledBall = Instantiate(dotPrefab, transform.position, Quaternion.identity);
                         // Increment the current level in the singleton
                         GateOpener.Instance.currentLevel++;
                         // Set the controlled ball in the singleton
-                        GateOpener.Instance.controlledBall = controlledBall; 
+                        GateOpener.Instance.controlledBall = controlledBall;
+                        // Set the original color of the ball in the singleton
+                        GateOpener.Instance.ballOriginalColor = controlledBall.GetComponent<Renderer>().material.color;
+
                     }
 
                             

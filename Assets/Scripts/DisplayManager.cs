@@ -95,7 +95,15 @@ public class DisplayManager : MonoBehaviour
     public void RestartScene()
     {
         Debug.Log("Restarting scene...");
+        SaveState();
         Time.timeScale = 1; // Resume the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void SaveState()
+    {
+        PlayerPrefs.SetInt("CurrentAthleteID", GateOpener.Instance.athleteID);
+        PlayerPrefs.Save();
+    }
+
 }
