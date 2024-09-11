@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; 
 using System;
+using UnityEngine.SceneManagement; // Add this to use SceneManager
 
 public class GateOpener : MonoBehaviour
 {
@@ -189,6 +190,14 @@ public class GateOpener : MonoBehaviour
 
             // Optionally, parent the quad to the NPC to maintain relative positioning
             quad.transform.SetParent(npc);
+        }
+    }
+
+    private void Update(){
+        // Check if the escape key is pressed
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
 
@@ -543,7 +552,7 @@ private IEnumerator ChangeBallColor()
     //Renvoie true si la boule est assez rapide, false sinon
     private bool CheckForSpeed()
     {
-        if (rb.velocity.magnitude >= 80)        {            return true;        }
+        if (rb.velocity.magnitude >= 60)        {            return true;        }
         else {            return false;        }
 
     }

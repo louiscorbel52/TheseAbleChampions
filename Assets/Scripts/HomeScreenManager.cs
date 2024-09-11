@@ -27,7 +27,7 @@ public class HomeScreenManager : MonoBehaviour
     // Function to load the LouisCWorkScene
     public void LoadLouisCWorkScene()
     {
-        SceneManager.LoadScene("LouisCWorkScene");
+        SceneManager.LoadScene("LouisCWorkScene 1");
     }
 
     // Function to show the popup canvas

@@ -655,7 +655,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75, y: 97}
+  m_AnchoredPosition: {x: 75, y: 122.07}
   m_SizeDelta: {x: 600, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &157743694
@@ -2914,28 +2914,14 @@ GameObject:
   - component: {fileID: 931644028}
   - component: {fileID: 931644027}
   - component: {fileID: 931644026}
-  - component: {fileID: 931644025}
+  - component: {fileID: 931644030}
   m_Layer: 0
-  m_Name: Barrier3 (1)
+  m_Name: TriggerBarrierOleksandr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &931644025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931644024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9342d1b4dc2794e42ba2106b52fb611d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gateOpener: {fileID: 1004113132}
-  gateID: 3
 --- !u!65 &931644026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2951,7 +2937,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3016,12 +3002,25 @@ Transform:
   m_GameObject: {fileID: 931644024}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.26, y: 15, z: 0}
+  m_LocalPosition: {x: -25.26, y: 13.51, z: 0}
   m_LocalScale: {x: 25.287498, y: 1, z: 11.106}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &931644030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931644024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea5a5b92fd8cfc45942942f5c3e8d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  opener: {fileID: 1004113132}
 --- !u!1001 &944437664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3175,9 +3174,8 @@ MonoBehaviour:
   oleksandrPopup: {fileID: 222171906}
   assiaEndGamePopup: {fileID: 1078166226}
   oleksandrEndGamePopup: {fileID: 434998514}
-  soundManagerGameObject: {fileID: 308956068}
-  trailSource: {fileID: 8046213}
-  audioSource: {fileID: 666922899}
+  assiaPopupText: {fileID: 1434799393}
+  oleksandrPopupText: {fileID: 420284818}
 --- !u!114 &1004113134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3190,7 +3188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d328cb0b787c84596430b69efdded6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hintDelay: 1
+  hintDelay: 20
 --- !u!4 &1004113135
 Transform:
   m_ObjectHideFlags: 0
@@ -3241,8 +3239,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 588, y: -287.5}
-  m_SizeDelta: {x: 600, y: 335}
+  m_AnchoredPosition: {x: 588, y: -312.925}
+  m_SizeDelta: {x: 600, y: 385.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1061836545
 MonoBehaviour:
@@ -3284,35 +3282,23 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'OLEKSANDER END Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod
-
-    tempor incididunt ut labore et dolore magna aliqua. Quis
-    ipsum
-
-    suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan
-
-    lacus
-    vel facilisis.
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod
-
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim
-    ad minim
-
-    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-    ex ea
-
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-
-    velit
-    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-
-    cupidatat
-    non proident, sunt in culpa qui officia deserunt mollit anim id est
-
-    laborum.'
+  m_text: "At the 2024 Summer Paralympics, Oleksandr won the Men's 100-metre freestyle
+    (class S5), setting a new Paralympic record. It was the first gold for Ukraine
+    at this Paralympics, a symbolic event given the long war that engulfed his country.
+    Before that, he obtained 5 gold medals and 5 bronze medals in different Para
+    swimming championships.\n\nOleksandr is from Mariupol, was a deputy of the city
+    council, and had the title of honorary citizen of the city. He met the beginning
+    of the full-scale invasion of the Russian Federation in his hometown and experienced
+    all the horrors in the sieged city. As the athlete himself said, at first he
+    wasn\u2019t going to leave but every day it got hotter, people were cut off from
+    the news, from the light, the gas was turned off, the water ran out. At the cause
+    of the Russian bombs, his friend\u2019s grandmother died, as well as people on
+    a nearby street. The swimmer's family managed to escape Mariupol while the fighting
+    was going on. Later, a Russian missile hit Komarov's house, destroying it completely.
+    All his past medals have burned.\n\nOleksandr has a musculoskeletal disorder,
+    a disease related to the nervous system. The war had taken its toll on his health,
+    but he decided not to waste time adjusting. \"Sports and activity are medicines
+    that bring life back,\" the athlete emphasizes."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3799,6 +3785,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1139783038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1139783039}
+  - component: {fileID: 1139783041}
+  - component: {fileID: 1139783040}
+  m_Layer: 5
+  m_Name: PanelHiddenBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1139783039
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139783038}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1188188626}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1139783040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139783038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ad0b3da4bdc59450f9941bb5c33dd307, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1139783041
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139783038}
+  m_CullTransparentMesh: 1
 --- !u!1 &1167251723
 GameObject:
   m_ObjectHideFlags: 0
@@ -4025,6 +4086,108 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168179591}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1188188622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1188188626}
+  - component: {fileID: 1188188625}
+  - component: {fileID: 1188188624}
+  - component: {fileID: 1188188623}
+  m_Layer: 5
+  m_Name: CanvasHiddenBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1188188623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188188622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1188188624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188188622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!223 &1188188625
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188188622}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 1883866837}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &1188188626
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188188622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 12.11}
+  m_LocalScale: {x: 0.34, y: 0.34, z: 0.34}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 1139783039}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10.54}
+  m_SizeDelta: {x: 192, y: 108}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1213118226
 GameObject:
   m_ObjectHideFlags: 0
@@ -4894,35 +5057,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ASSIA END Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-    do eiusmod
-
-    tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
-
-    suspendisse
-    ultrices gravida. Risus commodo viverra maecenas accumsan
-
-    lacus vel facilisis.
-
-    Lorem
-    ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-
-    tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-
-    veniam, quis
-    nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-
-    commodo consequat.
-    Duis aute irure dolor in reprehenderit in voluptate
-
-    velit esse cillum dolore
-    eu fugiat nulla pariatur. Excepteur sint occaecat
-
-    cupidatat non proident,
-    sunt in culpa qui officia deserunt mollit anim id est
-
-    laborum.'
+  m_text: "Assia El Hannouni is one of the greatest para-athletes. She competed in
+    athletics, in the T12 category. She suffers from a degenerative illness that
+    has caused her to progressively lose her eyesight. However, this never stopped
+    her from competing at the highest level. She won a total of 10 medals \u2014
+    8 gold and 2 silver \u2014 across three different Paralympic editions: Athens,
+    Beijing, and London. She is the only athlete, from both the Olympics and Paralympics,
+    to win in the 100m, 200m, 400m, and 800m. \n\nAfter the Beijing Paralympics she
+    thought about retiring, exhausted and without any motivation. After a long journey
+    of work, psychological follow-up she was able to came back and won on Both 400m
+    and 200m and established a world record in 200m.\n\nAs one of the most accomplished
+    French athletes, she has played a pivotal role in representing disabled athletes.
+    She has taken multiple stands to bring attention to the French Paralympic team
+    and promote inclusivity in sports. In the 2024 Paralympics she was among the
+    last torchbearer to carry the flame to the Paralympics Cauldron."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5529,7 +5677,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2.1105955, y: -101.41104}
-  m_SizeDelta: {x: 952, y: 539}
+  m_SizeDelta: {x: 952, y: 589.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1649790505
 MonoBehaviour:
@@ -7018,7 +7166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Assia
+  m_text: Assia El Hannouni
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9098,6 +9246,7 @@ SceneRoots:
   - {fileID: 1631745107}
   - {fileID: 2141434642}
   - {fileID: 2133434527}
+  - {fileID: 1188188626}
   - {fileID: 555374647}
   - {fileID: 931644029}
   - {fileID: 109543224}
