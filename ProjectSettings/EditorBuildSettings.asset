@@ -7,5 +7,8 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/LouisCWorkScene 1.unity
-    guid: 692088d0a61365a4c83d626aafa55022
+    guid: 758a19e0e881147b3ad810c6338d7587
+  - enabled: 1
+    path: Assets/Scenes/HomeScene.unity
+    guid: f25aac7d511b94036bed865407ed527a
   m_configObjects: {}
