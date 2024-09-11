@@ -91,7 +91,7 @@ public class BallNPC : MonoBehaviour
             {
                 if (distance <= marginOfError)
                 {
-                    SoundManager.Instance.PlaySound(ballSelectionSound, 1.0f);
+                    //SoundManager.Instance.PlaySound(ballSelectionSound, 1.0f);
 
                     // Get the tag of the current GameObject
                     string objectTag = gameObject.tag;
@@ -240,7 +240,7 @@ public class BallNPC : MonoBehaviour
     {
         if (tag == "1" && hoverQuadInstance == null)
         {
-            SoundManager.Instance.PlaySound(oleksandrHoverSoundName, 1.0f);
+            //SoundManager.Instance.PlaySound(oleksandrHoverSoundName, 1.0f);
 
             // Disable the existing quad
             if (this.transform.GetChild(0) != null)
@@ -260,7 +260,7 @@ public class BallNPC : MonoBehaviour
         }
         else if (tag == "2" && hoverQuadInstance == null)
         {
-            SoundManager.Instance.PlaySound(assiaHoverSoundName, 1.0f);
+            //SoundManager.Instance.PlaySound(assiaHoverSoundName, 1.0f);
 
             // Disable the existing quad
             if (this.transform.GetChild(0) != null)

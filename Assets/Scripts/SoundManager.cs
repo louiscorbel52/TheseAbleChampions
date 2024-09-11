@@ -29,6 +29,8 @@ public class SoundManager : MonoBehaviour
     // Method to play a sound by name with optional pitch adjustment
     public void PlaySound(string soundName, float pitch)
     {
+        Debug.Log(audioSource);
+
         // Find the audio clip by name
         AudioClip clip = System.Array.Find(audioClips, c => c.name == soundName);
 

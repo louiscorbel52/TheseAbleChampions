@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1993,7 +1993,7 @@ GameObject:
   - component: {fileID: 666922899}
   - component: {fileID: 666922901}
   m_Layer: 0
-  m_Name: Audio Source
+  m_Name: AudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3175,6 +3175,9 @@ MonoBehaviour:
   oleksandrPopup: {fileID: 222171906}
   assiaEndGamePopup: {fileID: 1078166226}
   oleksandrEndGamePopup: {fileID: 434998514}
+  soundManagerGameObject: {fileID: 308956068}
+  trailSource: {fileID: 8046213}
+  audioSource: {fileID: 666922899}
 --- !u!114 &1004113134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5112,7 +5115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1525221948}
   m_Layer: 0
-  m_Name: AudioSources
+  m_Name: ParentAudioSources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

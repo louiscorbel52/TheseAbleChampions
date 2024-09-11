@@ -11,6 +11,7 @@ public class DisplayManager : MonoBehaviour
     [SerializeField] GameObject oleksandrPopup;
     [SerializeField] GameObject assiaEndGamePopup;
     [SerializeField] GameObject oleksandrEndGamePopup;
+
     
     // Start is called before the first frame update
     void Start()
@@ -94,13 +95,39 @@ public class DisplayManager : MonoBehaviour
     }
 
     // Method to restart the scene
-    public void RestartScene()
+    /*public void RestartScene()
     {
         Debug.Log("Restarting scene...");
         SaveState();
         Time.timeScale = 1; // Resume the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }*/
+
+    // Method to restart the scene
+    public void RestartScene()
+    {
+        Debug.Log("Restarting scene...");
+        SaveState();
+        Time.timeScale = 1; // Resume the game
+        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the sceneLoaded event
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe from the sceneLoaded event
+
+        // Find the SoundManager singleton instance
+        SoundManager soundManager = SoundManager.Instance;
+        if (soundManager != null)
+        {
+            var parent = GameObject.Find("ParentAudioSources").transform;
+            // Set the audioSource and trailSource parameters
+            soundManager.audioSource = parent.Find("AudioSource").GetComponent<AudioSource>();// Assign the appropriate AudioSource
+            soundManager.trailSource = parent.Find("TrailSource").GetComponent<AudioSource>();// Assign the appropriate TrailSource
+        }
+    }
+
 
     public void SaveState()
     {
