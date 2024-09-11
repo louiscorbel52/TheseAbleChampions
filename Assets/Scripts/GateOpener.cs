@@ -405,7 +405,7 @@ private IEnumerator ChangeBallColor()
                     float distanceToValidPos = Mathf.Abs(controlledBall.transform.position.x - xValidValueLevel1Assia);
                     Debug.Log($"You are {distanceToValidPos} away from the valid position");
                     
-                    float scaledValue = ScaleValue(distanceToValidPos, 0f, 10.0f, 3.0f, 0f);
+                    float scaledValue = ScaleValue(distanceToValidPos, 0f, 20.0f, 3.0f, 0f);
                     SoundManager.Instance.PlaySound(assiaLevel1SoundName, scaledValue);
 
                 }
@@ -638,13 +638,14 @@ private IEnumerator ChangeBallColor()
         if (currentLevel == 1 | currentLevel == 2 | currentLevel == 3)
         {
             OpenBarrier();
+            displayManager.DisplayProcess();
         }
         currentLevel++;
         if (currentLevel == 1 | currentLevel == 2 | currentLevel == 3)
         {
             StartCoroutine(hintManager.HintCoroutine(currentLevel, athleteID));
         }
-        displayManager.DisplayProcess();
+        
     }
     private void StopAllNPC()
     {
