@@ -21,7 +21,11 @@ public class GateOpener : MonoBehaviour
     public List<GameObject> barriersToDisableAssia;
     public List<GameObject> barriersToActivateAssia;
 
-    public string assiaLevel1SoundName = "bump";  // The name of the sound clip to play
+    public string assiaLevel1SoundName = "Sd_Bump_f";  // The name of the sound clip to play when hitting a barrier
+
+    public string onYourMarkSoundName = "Sd_At your mark"; //
+
+    public string successSoundName = "Sd_Succes_f";
 
     public float yMinimumValueForLevel2Assia = 5.0f;
 
@@ -311,6 +315,9 @@ private IEnumerator ChangeBallColor()
 {
     List<Material> playerMaterials = new List<Material>{redPlayerMaterial,orangePlayerMaterial,greenPlayerMaterial}; // Red, Orange, Green
     int i = 0;
+
+    SoundManager.Instance.PlaySound(onYourMarkSoundName, 1.0f);
+
     foreach (Material mat in playerMaterials)
     {
         controlledBall.transform.GetChild(0).GetComponent<Renderer>().material = mat;
@@ -337,19 +344,28 @@ private IEnumerator ChangeBallColor()
             //if (currentLevel == 1 & CheckForSynchronicity())
             if (currentLevel == 1 & circleCompleted)
             {
+                SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                 GoToNextLevel();
                 level2NPC.SetActive(true);
 
+            } else
+            {
+                SoundManager.Instance.PlaySound(assiaLevel1SoundName, 1.0f);
             }
             //Condition de passage au niveau 3
             if (currentLevel == 2 & CheckForOutsideBox())
             {
+                SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                 GoToNextLevel();
                 level3NPC.SetActive(true);
+            } else
+            {
+                SoundManager.Instance.PlaySound(assiaLevel1SoundName, 1.0f);
             }
             //Condition de passage au niveau 4
             if (currentLevel == 3 & CheckForSpeed())
             {
+                SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                 GoToNextLevel();
                 MoveNPCBallsHigher();
                 StartCoroutine(FadeBackgroundToNew(endGameBackgroundImage)); // Start the fade coroutine
@@ -357,9 +373,13 @@ private IEnumerator ChangeBallColor()
 
             else if (currentLevel == 4 )
             {
+                SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                 currentLevel++;
                 displayManager.DisplayProcess();
                 Debug.Log("wahou");
+            } else
+            {
+                SoundManager.Instance.PlaySound(assiaLevel1SoundName, 1.0f);
             }
         }
         else if(athleteID == 2){
@@ -367,6 +387,7 @@ private IEnumerator ChangeBallColor()
             if (currentLevel == 1)
             {
                 if(CheckForPrecisePosition()){
+                    SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                     GoToNextLevel();
                     level2NPC.SetActive(true);
                 }
@@ -386,11 +407,13 @@ private IEnumerator ChangeBallColor()
             else if(currentLevel == 2){
 
                 if (StartingPoint.y<yMinimumValueForLevel2Assia){
+                    SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                     GoToNextLevel();
 
                     level3NPC.SetActive(true);
                 }
                 else{
+                    SoundManager.Instance.PlaySound(assiaLevel1SoundName, 1.0f);
                     Debug.Log($"You are not low enough Starting point is {StartingPoint.y} and minimum value is {yMinimumValueForLevel2Assia}");
                 }
             }
@@ -400,15 +423,22 @@ private IEnumerator ChangeBallColor()
                 // ICI CHANGER LA CONDITION PAR CHECK SI ENDANT EST GREEN MATERIAL
                 if (isGreen)
                 {
+                    SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                     GoToNextLevel();
                     MoveNPCBallsHigher();
                     StartCoroutine(FadeBackgroundToNew(endGameBackgroundImage)); // Start the fade coroutine
                     Debug.Log("Barrier is green, proceeding with level 3 actions.");
                 }
+
+                if (!isGreen)
+                {
+                    SoundManager.Instance.PlaySound(assiaLevel1SoundName, 1.0f);
+                }
             }
 
             else if (currentLevel == 4 )
             {
+                SoundManager.Instance.PlaySound(successSoundName, 1.0f);
                 currentLevel++;
                 displayManager.DisplayProcess();
                 Debug.Log("wahou");

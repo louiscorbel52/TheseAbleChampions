@@ -13,6 +13,8 @@ public class BallPlayer : MonoBehaviour
 
     public float vitesse;
 
+    public string ballMovementSound = "SD_MVT";
+
     void Start()
     {
         // R�cup�re la cam�ra principale
@@ -36,6 +38,11 @@ public class BallPlayer : MonoBehaviour
         // Applique la v�locit� � la boule en fonction de la direction et de la sensibilit�
         rb.velocity = direction * sensitivity;
         vitesse = rb.velocity.y;
+
+        if (vitesse < 0.1f)
+        {
+            SoundManager.Instance.PlayTrailSound(ballMovementSound);
+        }
     }
 
     

@@ -46,6 +46,10 @@ public class BallNPC : MonoBehaviour
     public GameObject assiaPopup;
     public GameObject oleksandrPopup;
 
+    public string assiaHoverSoundName = "Sd_dot_hover_Assia_f";
+    public string oleksandrHoverSoundName = "Sd_hover_Oleksandr";
+    public string ballSelectionSound = "Sd_dot_selection_f";
+
 
     private void Start()
     {
@@ -87,6 +91,7 @@ public class BallNPC : MonoBehaviour
             {
                 if (distance <= marginOfError)
                 {
+                    SoundManager.Instance.PlaySound(ballSelectionSound, 1.0f);
 
                     // Get the tag of the current GameObject
                     string objectTag = gameObject.tag;
@@ -235,6 +240,8 @@ public class BallNPC : MonoBehaviour
     {
         if (tag == "1" && hoverQuadInstance == null)
         {
+            SoundManager.Instance.PlaySound(oleksandrHoverSoundName, 1.0f);
+
             // Disable the existing quad
             if (this.transform.GetChild(0) != null)
             {
@@ -253,6 +260,8 @@ public class BallNPC : MonoBehaviour
         }
         else if (tag == "2" && hoverQuadInstance == null)
         {
+            SoundManager.Instance.PlaySound(assiaHoverSoundName, 1.0f);
+
             // Disable the existing quad
             if (this.transform.GetChild(0) != null)
             {
